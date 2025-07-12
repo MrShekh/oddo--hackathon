@@ -15,6 +15,7 @@ const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const searchRoutes = require('./routes/search.routes');
 const swapRoutes = require('./routes/swap.routes');
+const feedbackRoutes = require('./routes/feedback.routes');
 
 // Connect to DB
 connectDB();
@@ -35,6 +36,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/swaps', swapRoutes);
+app.use('/api/feedbacks', feedbackRoutes);
 
 // Root route
 app.get('/', (req, res) => {

@@ -11,8 +11,16 @@ exports.getProfile = async (req, res) => {
 };
 
 // @desc    Update profile (name, location, photo)
+// @desc    Update profile (name, location, photo, visibility)
 exports.updateProfile = async (req, res) => {
-  const { name, location, skillsOffered, skillsWanted, availability } = req.body;
+  const {
+    name,
+    location,
+    skillsOffered,
+    skillsWanted,
+    availability,
+    isPublic 
+  } = req.body;
 
   try {
     const user = await User.findById(req.user.id);
@@ -21,7 +29,10 @@ exports.updateProfile = async (req, res) => {
     if (name) user.name = name;
     if (location) user.location = location;
 
-    // Handle array-like input
+    if (typeof isPublic !== 'undefined') {
+      user.isPublic = isPublic; // <- 👈 toggle visibility
+    }
+
     if (skillsOffered) {
       user.skillsOffered = Array.isArray(skillsOffered)
         ? skillsOffered
@@ -52,4 +63,3 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
-

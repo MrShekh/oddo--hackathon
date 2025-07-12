@@ -46,6 +46,14 @@ skillsWanted: {
 availability: {
   type: [String], // e.g., ['Weekends', 'Evenings']
   default: []
+},
+isPublic: {
+  type: Boolean,
+  default: true
+},
+isBanned: {
+  type: Boolean,
+  default: false
 }
 });
 
