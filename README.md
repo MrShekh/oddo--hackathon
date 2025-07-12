@@ -13,6 +13,8 @@ Poonam Sahu :    poonam2005sahu@gmail.com
 Mruanl Gaikwad : mrunalgaikwad02@gmail.com
 Shekh Asif :     shekhasifofficial2022@gmail.com
 
+Video Link : https://drive.google.com/file/d/1L4GTCW62fVxyDZKqlKLGCOgfqjg6zIky/view?usp=drive_link
+
 
 # Oddo - Skill Swap Platform 🛠️
 
