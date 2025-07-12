@@ -14,6 +14,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const searchRoutes = require('./routes/search.routes');
+const swapRoutes = require('./routes/swap.routes');
 
 // Connect to DB
 connectDB();
@@ -33,6 +34,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/swaps', swapRoutes);
 
 // Root route
 app.get('/', (req, res) => {
