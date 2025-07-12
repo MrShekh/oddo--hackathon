@@ -130,6 +130,7 @@ A full-stack web platform that allows users to **swap skills** with each other a
   "isPublic": true
 }
 
+Swap Collection
 {
   "requester": "ObjectId of User A",
   "recipient": "ObjectId of User B",
@@ -137,7 +138,7 @@ A full-stack web platform that allows users to **swap skills** with each other a
   "requestedSkill": "React",
   "status": "pending"
 }
-
+Feedback Collection
 {
   "from": "ObjectId of requester",
   "to": "ObjectId of recipient",
