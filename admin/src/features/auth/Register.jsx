@@ -1,75 +1,127 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const Register = ({ onSwitch }) => {
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: ''
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const res = await axios.post("https://oddo-hackathon.onrender.com/api/auth/register", {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        role: form.role  // "admin" or "user"
+      });
+
+      alert("Registered successfully!");
+      console.log(res.data);
+      onSwitch("login"); // Switch to login screen after success
+    } catch (err) {
+      console.error(err.response?.data || err);
+      alert(err.response?.data?.message || "Registration failed.");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-md">
         <h2 className="text-3xl font-extrabold text-center mb-8">Create a new account</h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="text"
+            name="name"
             placeholder="Full Name"
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded"
           />
           <input
             type="email"
+            name="email"
             placeholder="Email Address"
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded"
           />
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
+              name="password"
               placeholder="Password"
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={form.password}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded"
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              onClick={() => setShowPassword((prev) => !prev)}
-              tabIndex={-1}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              onClick={() => setShowPassword(!showPassword)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
+              👁️
             </button>
           </div>
           <div className="relative">
             <input
               type={showConfirm ? "text" : "password"}
+              name="confirmPassword"
               placeholder="Confirm Password"
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded"
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              onClick={() => setShowConfirm((prev) => !prev)}
-              tabIndex={-1}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              onClick={() => setShowConfirm(!showConfirm)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
+              👁️
             </button>
           </div>
-          <select className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <select
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded"
+          >
             <option value="">Select Role</option>
             <option value="user">User</option>
-            <option value="mentor">Admin</option>
+            <option value="admin">Admin</option>
           </select>
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded transition duration-200"
+            className="w-full bg-indigo-600 text-white font-semibold py-2 rounded"
           >
             Register
           </button>
         </form>
         <div className="text-center mt-4">
-          <span className="text-gray-600">Already have an account? </span>
-          <button className="text-indigo-600 hover:underline font-semibold" onClick={() => onSwitch('login')}>
+          <span>Already have an account? </span>
+          <button className="text-indigo-600" onClick={() => onSwitch("login")}>
             Sign in
           </button>
         </div>
@@ -78,4 +130,4 @@ const Register = ({ onSwitch }) => {
   );
 };
 
-export default Register; 
+export default Register;

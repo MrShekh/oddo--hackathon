@@ -41,7 +41,16 @@ io.on('connection', (socket) => {
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',        // frontend dev
+  'https://yourfrontend.com'      // frontend prod
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
 

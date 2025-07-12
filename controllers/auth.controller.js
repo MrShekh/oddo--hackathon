@@ -34,6 +34,7 @@ exports.register = async (req, res) => {
 
 
 // Login (for users/admins)
+// Login (for users/admins)
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -45,7 +46,12 @@ exports.login = async (req, res) => {
     return res.status(200).json({
       message: 'Login successful',
       token: generateToken(user),
-      role: user.role
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
     });
   } catch (error) {
     return res.status(500).json({ message: 'Server error', error: error.message });
