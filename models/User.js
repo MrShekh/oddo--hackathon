@@ -54,6 +54,11 @@ isPublic: {
 isBanned: {
   type: Boolean,
   default: false
+},
+
+flaggedSkills: {
+  type: [String],
+  default: []
 }
 });
 
