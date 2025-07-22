@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const morgan = require('morgan');
-const http = require('http'); // <-- NEW
-const { init } = require('./socket'); // <-- NEW
 
 // Load env vars
 dotenv.config();
@@ -25,25 +23,15 @@ const reportRoutes = require('./routes/report.routes');
 // Connect to DB
 connectDB();
 
-// Init app & server
+// Init app
 const app = express();
-const server = http.createServer(app); // <-- wrap express
-
-// Init Socket.IO
-const io = init(server);
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
-  });
-});
 
 // Middleware
 app.use(express.json());
+
 const allowedOrigins = [
   'http://localhost:3000',        // frontend dev
-  'https://yourfrontend.com'      // frontend prod
+  'https://skill-swap-admin.netlify.app/'      // frontend prod
 ];
 
 app.use(cors({
@@ -73,6 +61,6 @@ app.get('/', (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

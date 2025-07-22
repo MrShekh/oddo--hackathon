@@ -1,5 +1,4 @@
 const Notification = require('../models/Notification');
-const { getIO } = require('../socket'); // 👈 Add this
 
 // ➤ Admin creates notification
 exports.createNotification = async (req, res) => {
@@ -18,13 +17,7 @@ exports.createNotification = async (req, res) => {
 
     await notification.save();
 
-    // 👉 Emit real-time event to all clients
-    const io = getIO();
-    io.emit('new-announcement', {
-      message: notification.message,
-      target: notification.target,
-      createdAt: notification.createdAt,
-    });
+    // Removed real-time socket event
 
     res.status(201).json({ message: 'Notification created', notification });
   } catch (err) {
