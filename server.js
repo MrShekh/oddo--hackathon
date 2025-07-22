@@ -31,7 +31,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   'http://localhost:3000',        // frontend dev
-  'https://skill-swap-admin.netlify.app/'      // frontend prod
+  'https://skill-swap-admin.netlify.app'      // frontend prod
 ];
 
 app.use(cors({
